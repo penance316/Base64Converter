@@ -48,40 +48,58 @@ namespace Base64Converter
 		{
 			Console.Clear();
 			Console.Out.WriteLine("Encoding");
-			
-			var inPath = Path.Combine(Directory.GetCurrentDirectory(), InputFile);
-			var outPath = Path.Combine(Directory.GetCurrentDirectory(), OutputFile);
 
-			var fs = new FileStream(InputFile, FileMode.Open, FileAccess.Read);
-			var filebytes = new byte[fs.Length];
+			try
+			{
+				var inPath = Path.Combine(Directory.GetCurrentDirectory(), InputFile);
+				var outPath = Path.Combine(Directory.GetCurrentDirectory(), OutputFile);
 
-			fs.Read(filebytes, 0, Convert.ToInt32(fs.Length));
-			var encodedData = Convert.ToBase64String(filebytes, Base64FormattingOptions.InsertLineBreaks);
+				var fileBytes = File.ReadAllBytes(inPath);
 
-			File.WriteAllText(outPath, encodedData);
+				var encodedData = Convert.ToBase64String(fileBytes, Base64FormattingOptions.InsertLineBreaks);
 
-			Console.Out.WriteLine("Done");
-			Console.Out.Write("Press Enter...");
-			Console.ReadLine();
+				File.WriteAllText(outPath, encodedData);
+
+				Console.Out.WriteLine("Done");
+			}
+			catch (Exception exception)
+			{
+				Console.Out.WriteLine("Exception: " + exception);
+			}
+			finally
+			{
+				Console.Out.Write("Press Enter...");
+				Console.ReadLine();
+			}
 		}
 
 		private static void Decode()
 		{
 			Console.Clear();
 			Console.Out.WriteLine("Decoding");
-			
-			var inPath = Path.Combine(Directory.GetCurrentDirectory(), InputFile);
-			var outPath = Path.Combine(Directory.GetCurrentDirectory(), OutputFile);
 
-			var fileString = File.ReadAllText(inPath);
+			try
+			{
+				var inPath = Path.Combine(Directory.GetCurrentDirectory(), InputFile);
+				var outPath = Path.Combine(Directory.GetCurrentDirectory(), OutputFile);
 
-			var decodedData = Convert.FromBase64String(fileString);
+				var fileString = File.ReadAllText(inPath);
 
-			File.WriteAllBytes(outPath, decodedData);
+				var decodedData = Convert.FromBase64String(fileString);
 
-			Console.Out.WriteLine("Done");
-			Console.Out.Write("Press Enter...");
-			Console.ReadLine();
+				File.WriteAllBytes(outPath, decodedData);
+
+				Console.Out.WriteLine("Done");
+			}
+			catch (Exception exception)
+			{
+				Console.Out.WriteLine("Exception: " + exception);
+			}
+			finally
+			{
+				Console.Out.Write("Press Enter...");
+				Console.ReadLine();
+			}
 		}
 	}
 }
